@@ -1,16 +1,22 @@
+<html lang="en">
 <head>
 
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-  <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
-
-
+<script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="//jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="//jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
 <div class="container">
 <div class="row">
+
+  {% if not error_text %}
+  <div class="control-group error">
+    <label class="control-label" for="inputError">{{ error_text }}</label>
+  </div>
+  {% endif %}
+
   <div class="panel-heading">
     <h4 class="text-center">Request Feature</h4>
   </div>
@@ -79,10 +85,12 @@
   $( "#feature_request_form" ).validate({
     rules: {
       title: {
-        required: true
+        required: true,
+        maxlength: 100
       },
       description: {
-        required: true
+        required: true,
+        maxlength: 2000
       },
       client_priority: {
         required: true,
@@ -100,3 +108,4 @@
 </script>
 
 </head>
+</html>

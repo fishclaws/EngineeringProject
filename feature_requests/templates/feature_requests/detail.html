@@ -1,6 +1,21 @@
-h1>{{ request.title }}</h1>
-<ul>
-{% for client in request.client_set.all %}
-    <li>{{ client.name }}</li>
-{% endfor %}
-</ul>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+
+  <div class="btn-group btn-group-justified" role="group">
+    <a class="btn btn-primary" role="button" href='../../'>Back</a>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="panel-heading">
+        <h4 class="text-center">Request for: {{ request.title }}</h4>
+      </div>
+    </div>
+      <div class="row">
+        <p class="text-left"> {{ request.description }} </p>
+      </div>
+  </div>
+</head>
+</html>

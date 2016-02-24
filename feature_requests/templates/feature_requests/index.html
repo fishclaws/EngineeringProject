@@ -1,7 +1,5 @@
-<div class="container">
-
+<html lang="en">
 <head>
-
 <meta charset="utf-8">
 
 <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -11,6 +9,9 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<div class="container">
+
 
 <div class="panel-heading">
   <h4 class="text-center">Features Requested</h4>
@@ -68,20 +69,8 @@
     <p class = "bg-info text-center" >No features have been requested yet!</p>
 {% endif %}
 
-{% if dialog_message %}
-<script>
-  $(function() {
-    $( "#dialog" ).dialog();
-  });
-</script>
-{% endif %}
 
-</head>
-
-<body>
-  <div id="dialog">
-    <p>{{ dialog_message }}</p>
-  </div>
-</body>
 
 </div>
+</head>
+</html>

@@ -6,20 +6,26 @@ from .models import Client
 from .models import ProductArea
 from .forms import FeatureRequestForm
 
+#Views accessible by app
+
+#renders list of feature requests ordered by client priority (max 100)
 def index(request):
     request_list = FeatureRequest.objects.order_by('-client_priority')[:100]
     context = {'feature_request_list' : request_list}
     return render(request, 'feature_requests/index.html', context)
 
+#renders a page with the description of the request
 def detail(request, feature_request_id):
     feature_request = get_object_or_404(FeatureRequest, pk=feature_request_id)
     return render(request, 'feature_requests/detail.html', {'request': feature_request})
 
+#removes feature request
 def delete(request, feature_request_id):
     request = FeatureRequest.objects.get(pk=feature_request_id)
     request.delete()
     return HttpResponseRedirect('../../index')
 
+#posts test data as requested by the app specifications to the DB if it does not exist
 def addTestData(request):
     for letter in ('A', 'B', 'C'):
         if not Client.objects.filter(name = "Client " + letter).exists():
@@ -31,22 +37,26 @@ def addTestData(request):
             pa.save()
     return HttpResponseRedirect('../index')
 
+#renders a form to create a new request
 def new(request):
+    error_text = ""
     if request.method == 'POST':
         print("posting")
         form = FeatureRequestForm(data = request.POST)
         if form.is_valid():
-            feature_request = form.save(commit=False)
-            feature_request.correctClientPriorities()
-            feature_request.save()
+            form.save()
+            #feature_request = form.save(commit=False)
+            #feature_request.correctClientPriorities()
+            #feature_request.save()
             return HttpResponseRedirect('../index')
         else:
-            print(form.errors)
+            error_text = form.errors
     else:
         form = FeatureRequestForm()
     return render(request, 'feature_requests/new.html',
     {
     'form': form,
     'client_list': Client.objects.all(),
-    'product_area_list' : ProductArea.objects.all()
+    'product_area_list' : ProductArea.objects.all(),
+    'error_text' : error_text
     })

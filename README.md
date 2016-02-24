@@ -47,13 +47,7 @@ Installation should be easy
     }
     ```
 
-4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run
-```$ pip install PyMySQL```
-
-5. Run 
- ```python manage.py migrate``` 
-
-6.Then run
- ```python manage.py runserver```
- 
+4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run ```$ pip install PyMySQL```
+5. Run ```python manage.py migrate```
+6. Then run ```python manage.py runserver```
 7. The server should be up and ready, go to localhost\feature_request and you should be good to go

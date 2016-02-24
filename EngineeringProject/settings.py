@@ -77,16 +77,23 @@ WSGI_APPLICATION = 'EngineeringProject.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
+ 'default': {
+	'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
+	}
+}
+'''
+DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'MainDB',
-        'USER' : 'sam',
-        'PASSWORD' : '####',
-        'HOST' : '#####',
+        'USER' : '###',
+        'PASSWORD' : '###',
+        'HOST' : '###',
         'PORT' : '3306'
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

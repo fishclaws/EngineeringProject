@@ -16,7 +16,7 @@ class FeatureRequest(models.Model):
     description = models.CharField(max_length = 2000)
     client = models.ForeignKey(Client)
     client_priority = models.IntegerField(default = 1)
-    target_date = models.DateField(default = timezone.now())
+    target_date = models.DateField()
     ticket_url = models.CharField(max_length = 100)
     product_area = models.ForeignKey(ProductArea)
 

@@ -1,6 +1,6 @@
 # EngineeringProject
 
-This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery, jQuery Verification and Bootstrap.
+This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery .
 
 Installation should be easy
 
@@ -37,19 +37,19 @@ Installation should be easy
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
   ```
 
-  **OR** Simply use Sqlite and change __EngineeringProject\settings.py__ with the following configuration
+  **OR** Simply use the SqlLite Project provided with the project (this is the current DATABASE configuration)
     ```python
-DATABASES = {
- 'default': {
-	'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': os.path.join(PROJECT_DIR, 'MainDB.db'),
+	DATABASES = {
+	 'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
+		}
 	}
-}
     ```
+	
 
-4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database).
-5. Run ```$ pip install PyMySQL```
-6. Then Run ```python manage.py migrate```
-7. Then run ```python manage.py runserver```
-8. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
-9. The button at the top of the main page "Add Test Clients and Product Areas" will add the test data given in the requirements
+4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run ```$ pip install PyMySQL```
+5. ```python manage.py makemigrations```
+5. ```python manage.py migrate```
+6. ```python manage.py runserver```
+7. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go

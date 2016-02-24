@@ -7,7 +7,7 @@ Installation should be easy
 1. Make sure you have Python 3.4 and pip installed
 2. Install Django by running this ```pip install Django==1.9.2```
 
-3. Simply use the SqlLite Project provided with the project (this is the current DATABASE configuration)
+3. Simply use the SqLite DB provided with the project (this is the current DATABASES configuration)
     ```python
 	DATABASES = {
 	 'default': {
@@ -49,7 +49,8 @@ Installation should be easy
   ```
 
 4. If you did the 2nd option, edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). Run ```$ pip install PyMySQL```
-5. ```python manage.py makemigrations```
-6. ```python manage.py migrate```
-7. ```python manage.py runserver```
-8. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
+5. ```python manage.py migrate```
+6. ```python manage.py migrate --run-syncdb```
+6. ```python manage.py runserver```
+7. The app should be up and ready, go to http://localhost:8000/feature_requests/ to see it
+8. To add the test data specified in the reqs press "Add Test Clients and Product Areas"

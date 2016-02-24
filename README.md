@@ -47,7 +47,9 @@ Installation should be easy
     }
     ```
 
-4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run ```$ pip install PyMySQL```
-5. Run ```python manage.py migrate```
-6. Then run ```python manage.py runserver```
-7. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
+4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql 
+5. Run ```$ pip install PyMySQL```
+6. Then Run ```python manage.py migrate```
+7. Then run ```python manage.py runserver```
+8. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
+9. The button at the top of the main page "Add Test Clients and Product Areas" will add the test data given in the requirements

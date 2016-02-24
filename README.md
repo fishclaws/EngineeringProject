@@ -1,6 +1,6 @@
 # EngineeringProject
 
-This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery .
+This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery, jQuery Verification and Bootstrap.
 
 Installation should be easy
 

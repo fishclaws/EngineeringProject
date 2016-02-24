@@ -7,7 +7,7 @@ Installation should be easy
 1. Make sure you have Python 3.4 and pip installed
 2. Install Django by running this ```pip install Django==1.9.2```
 
-3. Simply use the SqLite DB provided with the project (this is the current DATABASES configuration)
+3. Don't do anything for this step and simply use the SqLite DB provided with the project (this is the current DATABASES configuration)
     ```python
 	DATABASES = {
 	 'default': {

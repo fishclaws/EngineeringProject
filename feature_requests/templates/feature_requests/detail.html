@@ -1,0 +1,6 @@
+h1>{{ request.title }}</h1>
+<ul>
+{% for client in request.client_set.all %}
+    <li>{{ client.name }}</li>
+{% endfor %}
+</ul>

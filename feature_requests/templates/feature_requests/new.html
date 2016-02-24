@@ -1,0 +1,102 @@
+<head>
+
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+  <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<div class="container">
+<div class="row">
+  <div class="panel-heading">
+    <h4 class="text-center">Request Feature</h4>
+  </div>
+
+  <form id="feature_request_form" action="/feature_requests/new/" method="post" role="form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="title">Request Title: </label>
+        <input id="title" class="form-control" type="text" name="title" value="{{ title }}">
+      </div>
+
+     <div class="form-group">
+        <label for="description">Description: </label>
+        <textarea id="description" rows="5" placeholder="Enter all details pertaining to request." class="form-control" type="text" name="description" value="{{ description }}"></textarea>
+      </div>
+
+       <div class="form-group">
+         <label for="client">Client: </label>
+        <select name="client" class="form-control">
+          {% for client in client_list %}
+            <option value="{{ client.id }}">{{ client.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="client_priority">Priority: </label>
+        <input id="client_priority" class="form-control" min = "1" type="integer" name="client_priority" value="{{ client_priority }}">
+      </div>
+
+      <div class="form-group">
+        <label for="target_date">Target Date: </label>
+        <input id="target_date" class="form-control" type="date" name="target_date" value="{{ target_date }}">
+      </div>
+
+      <div class="form-group">
+        <label for="ticket_url">Ticket URL: </label>
+        <input id="ticket_url" class="form-control" type="text" name="ticket_url" value="{{ title }}">
+        </div>
+
+      <div class="form-group">
+        <label for="product_area">Product Area: </label>
+       <select name="product_area" class="form-control">
+         {% for pa in product_area_list %}
+           <option value="{{ pa.id }}">{{ pa.product_category }}</option>
+         {% endfor %}
+       </select>
+     </div>
+
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-lg btn-block btn-success" value="Submit">
+      </div>
+
+
+  </form>
+</div>
+</div>
+
+<script>
+  // just for the demos, avoids form submit
+  jQuery.validator.setDefaults({
+    debug: false,
+    success: "valid"
+  });
+
+  $( "#feature_request_form" ).validate({
+    rules: {
+      title: {
+        required: true
+      },
+      description: {
+        required: true
+      },
+      client_priority: {
+        required: true,
+      },
+      target_date: {
+        required: true,
+        date: true
+      },
+      ticket_url: {
+        required: true,
+        url: true
+      }
+    }
+  });
+</script>
+
+</head>

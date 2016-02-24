@@ -1,6 +1,6 @@
 # EngineeringProject
 
-This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery .
+This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), SqLite, jQuery, jQuery validation, and Bootstrap
 
 Installation should be easy
 
@@ -48,9 +48,9 @@ Installation should be easy
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
   ```
 
-4. If you did the 2nd option, edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). Run ```$ pip install PyMySQL```
-5. ```python manage.py migrate```
-6. ```python manage.py migrate --run-syncdb```
-6. ```python manage.py runserver```
+4. If you did the 2nd option, edit the ```DATABASES``` section of the EngineeringProject\settings.py by uncommenting the second DATABASES block (contact me for my own credentials if you want to use my AWS database). Run ```$ pip install PyMySQL```.
+5. Run ```python manage.py migrate```
+6. Run ```python manage.py migrate --run-syncdb```
+6. Run ```python manage.py runserver```
 7. The app should be up and ready, go to http://localhost:8000/feature_requests/ to see it
 8. To add the test data specified in the reqs press "Add Test Clients and Product Areas"

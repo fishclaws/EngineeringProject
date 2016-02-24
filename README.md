@@ -39,12 +39,12 @@ Installation should be easy
 
   **OR** Simply use Sqlite and change __EngineeringProject\settings.py__ with the following configuration
     ```python
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-        }
-    }
+DATABASES = {
+ 'default': {
+	'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(PROJECT_DIR, 'MainDB.db'),
+	}
+}
     ```
 
 4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database).

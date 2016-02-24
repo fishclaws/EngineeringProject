@@ -48,6 +48,7 @@ Installation should be easy
     ```
 
 4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database)
+
 4.5. If you have trouble connecting to MySql run
 ```$ pip install PyMySQL```
 5. Run 

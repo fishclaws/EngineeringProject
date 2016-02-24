@@ -6,6 +6,17 @@ Installation should be easy
 
 1. Make sure you have Python 3.4 and pip installed
 2. Install Django by running this ```pip install Django==1.9.2```
+
+3. Simply use the SqlLite Project provided with the project (this is the current DATABASE configuration)
+    ```python
+	DATABASES = {
+	 'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
+		}
+	}
+```
+ **OR**
 3. Create and connect to an instance of MySql and run the following
   ```SQL
     CREATE DATABASE `MainDB` /*!40100 DEFAULT CHARACTER SET latin1 */;
@@ -37,19 +48,8 @@ Installation should be easy
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
   ```
 
-  **OR** Simply use the SqlLite Project provided with the project (this is the current DATABASE configuration)
-    ```python
-	DATABASES = {
-	 'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
-		}
-	}
-    ```
-	
-
-4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run ```$ pip install PyMySQL```
+4. If you did the 2nd option, edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). Run ```$ pip install PyMySQL```
 5. ```python manage.py makemigrations```
-5. ```python manage.py migrate```
-6. ```python manage.py runserver```
-7. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
+6. ```python manage.py migrate```
+7. ```python manage.py runserver```
+8. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go

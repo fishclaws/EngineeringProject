@@ -1,11 +1,22 @@
 # EngineeringProject
 
-This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), jQuery .
+This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), SqLite, jQuery, jQuery validation, and Bootstrap
 
 Installation should be easy
 
 1. Make sure you have Python 3.4 and pip installed
 2. Install Django by running this ```pip install Django==1.9.2```
+
+3. Don't do anything for this step and simply use the SqLite DB provided with the project (this is the current DATABASES configuration)
+    ```python
+	DATABASES = {
+	 'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
+		}
+	}
+```
+ **OR**
 3. Create and connect to an instance of MySql and run the following
   ```SQL
     CREATE DATABASE `MainDB` /*!40100 DEFAULT CHARACTER SET latin1 */;
@@ -37,19 +48,9 @@ Installation should be easy
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
   ```
 
-  **OR** Simply use the SqlLite Project provided with the project (this is the current DATABASE configuration)
-    ```python
-	DATABASES = {
-	 'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'MainDB.db'),
-		}
-	}
-    ```
-	
-
-4. Edit the ```DATABASES``` section of the EngineeringProject\settings.py file for this to work (contact me for my own credentials if you want to use my database). If you have trouble connecting to MySql run ```$ pip install PyMySQL```
-5. ```python manage.py makemigrations```
-5. ```python manage.py migrate```
-6. ```python manage.py runserver```
-7. The server should be up and ready, go to http://localhost:8000/feature_requests/ and you should be good to go
+4. If you did the 2nd option, edit the ```DATABASES``` section of the EngineeringProject\settings.py by uncommenting the second DATABASES block (contact me for my own credentials if you want to use my AWS database). Run ```$ pip install PyMySQL```.
+5. Run ```python manage.py migrate```
+6. Run ```python manage.py migrate --run-syncdb```
+6. Run ```python manage.py runserver```
+7. The app should be up and ready, go to http://localhost:8000/feature_requests/ to see it
+8. To add the test data specified in the reqs press "Add Test Clients and Product Areas"

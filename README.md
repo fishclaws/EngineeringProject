@@ -1,6 +1,10 @@
 # EngineeringProject
 
-This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), SqLite, jQuery, jQuery validation, and Bootstrap
+This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), SqLite, jQuery, jQuery validation, DataTables, and Bootstrap
+
+You can visit the demo at
+http://ec2-52-23-248-235.compute-1.amazonaws.com/feature_requests/index
+It is running on a Linux EC2 AWS server on Apache
 
 Installation should be easy
 
@@ -20,14 +24,14 @@ Installation should be easy
 3. Create and connect to an instance of MySql and run the following
   ```SQL
     CREATE DATABASE `MainDB` /*!40100 DEFAULT CHARACTER SET latin1 */;
-    
+
     CREATE TABLE `feature_requests_client` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(100) DEFAULT NULL,
     `client_priority` int(11) DEFAULT '0',
     PRIMARY KEY (`id`)
       ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-    
+
     CREATE TABLE `feature_requests_featurerequest` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `title` varchar(100) DEFAULT NULL,

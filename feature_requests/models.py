@@ -24,8 +24,8 @@ class FeatureRequest(models.Model):
     #the same client. I increment all client priorities greater than the
     #one being saved if there exists a priority equal to the current one
     def correctClientPriorities(self):
-        if FeatureRequest.objects.filter(client_priority = self.client_priority, client_id = self.client).exists():
-            requestList = FeatureRequest.objects.filter(client_priority__gte = self.client_priority, client_id = self.client)
+        if FeatureRequest.objects.filter(client_priority = self.client_priority, client_id = self.client).exclude(pk = self.id).exists():
+            requestList = FeatureRequest.objects.filter(client_priority__gte = self.client_priority, client_id = self.client).exclude(pk = self.id)
             for request in requestList:
                 request.client_priority += 1
                 request.save()

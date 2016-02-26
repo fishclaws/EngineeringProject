@@ -1,76 +1,85 @@
 <html lang="en">
-<head>
-<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-<script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 
-<div class="container">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script>
+    $(document).ready(function() {
+        $('#data_table').DataTable({
+          responsive: true
+        });
+    } );
+    </script>
+
+    <div class="container">
+      <div class="panel-heading">
+        <h4 class="text-center">Features Requested</h4>
+      </div>
+
+      <div class="btn-group btn-group-justified" role="group">
+        <a class="btn btn-primary" role="button" href='new/'>Request New Feature</a>
+        <a class="btn btn-default" role="button" href='test/'>Add Test Clients and Product Areas</a>
+      </div>
+
+      {% if feature_request_list %}
+      <div class="table-responsive">
+      <table id="data_table" class="order-column" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th role="row" >Request Title</th>
+          <th role="row">Client</th>
+          <th role="row">Priority</th>
+          <th role="row">Target Date</th>
+          <th role="row">Ticket URL</th>
+          <th role="row">Product Area</th>
+          <th role="row" hidden></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for fr in feature_request_list %}
+      <tr>
+        <td>
+          <a class="btn" href="detail/{{ fr.id }}/">{{ fr.title }}</a>
+        </td>
+        <td>
+          {{ fr.client.name }}
+        </td>
+        <td>
+          {{ fr.client_priority }}
+        </td>
+        <td>
+          {{ fr.target_date }}
+        </td>
+        <td>
+          {{ fr.ticket_url }}
+        </td>
+        <td>
+          {{ fr.product_area.product_category }}
+        </td>
+        <td>
+          <a class="btn btn-danger" href='delete/{{ fr.id }}/'>Delete</a> <br />
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+      </div>
+
+      {% else %}
+          <p class = "bg-info text-center" >No features have been requested yet!</p>
+      {% endif %}
 
 
-<div class="panel-heading">
-  <h4 class="text-center">Features Requested</h4>
-</div>
-
-<div class="btn-group btn-group-justified" role="group">
-  <a class="btn btn-primary" role="button" href='new/'>Request New Feature</a>
-  <a class="btn btn-default" role="button" href='test/'>Add Test Clients and Product Areas</a>
-</div>
-
-{% if feature_request_list %}
-<div class="table-responsive">
-<table class = "table table-striped">
-<thead>
-  <tr>
-    <th>Request Title</th>
-    <th>Client</th>
-    <th>Priority</th>
-    <th>Target Date</th>
-    <th>Ticket URL</th>
-    <th>Product Area</th>
-  </tr>
-</thead>
-<tbody>
-{% for fr in feature_request_list %}
-<tr>
-  <td>
-    <a class="btn" href="detail/{{ fr.id }}/">{{ fr.title }}</a>
-  </td>
-  <td>
-    {{ fr.client.name }}
-  </td>
-  <td>
-    {{ fr.client_priority }}
-  </td>
-  <td>
-    {{ fr.target_date }}
-  </td>
-  <td>
-    {{ fr.ticket_url }}
-  </td>
-  <td>
-    {{ fr.product_area.product_category }}
-  </td>
-  <td>
-    <a class="btn btn-danger" href='delete/{{ fr.id }}/'>Delete</a> <br />
-  </td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-
-{% else %}
-    <p class = "bg-info text-center" >No features have been requested yet!</p>
-{% endif %}
-
-
-
-</div>
-</head>
+    </div>
+  </head>
 </html>

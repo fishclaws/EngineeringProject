@@ -5,3 +5,8 @@ class FeatureRequestForm(ModelForm):
     class Meta:
         model = FeatureRequest
         fields = ['title', 'description', 'client', 'client_priority', 'target_date', 'ticket_url', 'product_area']
+
+class FeatureRequestDescriptionForm(ModelForm):
+    class Meta:
+        model = FeatureRequest
+        fields = ['description']

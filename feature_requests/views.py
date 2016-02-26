@@ -5,12 +5,13 @@ from .models import FeatureRequest
 from .models import Client
 from .models import ProductArea
 from .forms import FeatureRequestForm
+from .forms import FeatureRequestDescriptionForm
 
 #Views accessible by app
 
 #renders list of feature requests ordered by client priority (max 100)
 def index(request):
-    request_list = FeatureRequest.objects.order_by('-client_priority')[:100]
+    request_list = FeatureRequest.objects.order_by('-client_priority')
     context = {'feature_request_list' : request_list}
     return render(request, 'feature_requests/index.html', context)
 
@@ -18,6 +19,28 @@ def index(request):
 def detail(request, feature_request_id):
     feature_request = get_object_or_404(FeatureRequest, pk=feature_request_id)
     return render(request, 'feature_requests/detail.html', {'request': feature_request})
+
+#edits description
+def edit(request, feature_request_id):
+    error_text = ""
+    if request.method == 'POST':
+        form = FeatureRequestDescriptionForm(data = request.POST)
+        if form.is_valid():
+            update_request = form.save(commit = False)
+            feature_request = FeatureRequest.objects.get(pk = feature_request_id)
+            feature_request.description = update_request.description
+            feature_request.save()
+            return HttpResponseRedirect('../../index')
+        else:
+            print (form.errors)
+            error_text = form.errors
+    else:
+        form = FeatureRequestForm(instance = get_object_or_404(FeatureRequest, pk=feature_request_id))
+    return render(request, 'feature_requests/detail.html',
+    {
+    'request': form,
+    'error_text' : error_text
+    })
 
 #removes feature request
 def delete(request, feature_request_id):
@@ -41,15 +64,12 @@ def addTestData(request):
 def new(request):
     error_text = ""
     if request.method == 'POST':
-        print("posting")
         form = FeatureRequestForm(data = request.POST)
         if form.is_valid():
             form.save()
-            #feature_request = form.save(commit=False)
-            #feature_request.correctClientPriorities()
-            #feature_request.save()
             return HttpResponseRedirect('../index')
         else:
+            print (form.errors)
             error_text = form.errors
     else:
         form = FeatureRequestForm()

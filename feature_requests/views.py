@@ -24,7 +24,7 @@ def editDescription(request, feature_request_id):
         if form.is_valid():
             try:
                 form.save()
-                return HttpResponseRedirect('../../index')
+                return HttpResponseRedirect('../../')
             except ConcurrentModificationError as e:
                 print(e.message)
                 error_text = e.message
@@ -49,7 +49,7 @@ def new(request):
         form = FeatureRequestForm(data = request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('../index')
+            return HttpResponseRedirect('../')
         else:
             print (form.errors)
             error_text = form.errors
@@ -72,7 +72,7 @@ def edit(request, feature_request_id):
         if form.is_valid():
             try:
                 form.save()
-                return HttpResponseRedirect('../../index')
+                return HttpResponseRedirect('../../')
             except ConcurrentModificationError as e:
                 error_text = e;
         else:
@@ -95,7 +95,7 @@ def edit(request, feature_request_id):
 def delete(request, feature_request_id):
     request = FeatureRequest.objects.get(pk=feature_request_id)
     request.delete()
-    return HttpResponseRedirect('../../index')
+    return HttpResponseRedirect('../../')
 
 #posts test data as requested by the app specifications to the DB if it does not exist
 def addTestData(request):
@@ -107,4 +107,4 @@ def addTestData(request):
         if not ProductArea.objects.filter(product_category = product_name).exists():
             pa = ProductArea(product_category = product_name)
             pa.save()
-    return HttpResponseRedirect('../index')
+    return HttpResponseRedirect('../')

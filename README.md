@@ -3,7 +3,7 @@
 This is a Feature Request form project written in Python 3.4, using Django 1.9.2, MySql (running on AWS RDS), SqLite, jQuery, jQuery validation, DataTables, and Bootstrap
 
 You can visit the demo at
-http://ec2-52-23-248-235.compute-1.amazonaws.com/feature_requests/index
+http://ec2-52-23-248-235.compute-1.amazonaws.com/feature_requests/
 It is running on a Linux EC2 AWS server on Apache
 
 Installation should be easy

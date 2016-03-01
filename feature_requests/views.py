@@ -6,6 +6,7 @@ from .models import Client
 from .models import ProductArea
 from .forms import FeatureRequestForm
 from .forms import FeatureRequestDescriptionForm
+from .exceptions import ConcurrentModificationError
 
 #Views accessible by app
 
@@ -15,30 +16,78 @@ def index(request):
     context = {'feature_request_list' : request_list}
     return render(request, 'feature_requests/index.html', context)
 
-#renders a page with the description of the request
-def detail(request, feature_request_id):
-    feature_request = get_object_or_404(FeatureRequest, pk=feature_request_id)
-    return render(request, 'feature_requests/detail.html', {'request': feature_request})
-
 #edits description
-def edit(request, feature_request_id):
+def editDescription(request, feature_request_id):
     error_text = ""
     if request.method == 'POST':
-        form = FeatureRequestDescriptionForm(data = request.POST)
+        form = FeatureRequestDescriptionForm(data = request.POST, instance = FeatureRequest.objects.get(pk = feature_request_id))
         if form.is_valid():
-            update_request = form.save(commit = False)
-            feature_request = FeatureRequest.objects.get(pk = feature_request_id)
-            feature_request.description = update_request.description
-            feature_request.save()
-            return HttpResponseRedirect('../../index')
+            try:
+                form.save()
+                return HttpResponseRedirect('../../index')
+            except ConcurrentModificationError as e:
+                print(e.message)
+                error_text = e.message
         else:
             print (form.errors)
             error_text = form.errors
     else:
         form = FeatureRequestForm(instance = get_object_or_404(FeatureRequest, pk=feature_request_id))
+    print(form)
     return render(request, 'feature_requests/detail.html',
     {
     'request': form,
+    'feature_request_id' : feature_request_id,
+    'error_text' : error_text
+    })
+
+#renders a form to create a new request
+#posts the form
+def new(request):
+    error_text = ""
+    if request.method == 'POST':
+        form = FeatureRequestForm(data = request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('../index')
+        else:
+            print (form.errors)
+            error_text = form.errors
+    else:
+        form = FeatureRequestForm()
+    return render(request, 'feature_requests/edit.html',
+    {
+    'form': form,
+    'client_list': Client.objects.all(),
+    'product_area_list' : ProductArea.objects.all(),
+    'error_text' : error_text
+    })
+
+#renders a form to edit the existing request
+#posts the form
+def edit(request, feature_request_id):
+    error_text = ""
+    if request.method == 'POST':
+        form = FeatureRequestForm(data = request.POST, instance=FeatureRequest.objects.get(pk = feature_request_id))
+        if form.is_valid():
+            try:
+                form.save()
+                return HttpResponseRedirect('../../index')
+            except ConcurrentModificationError as e:
+                error_text = e;
+        else:
+            print (form.errors)
+            error_text = form.errors
+    else:
+        feature_request = get_object_or_404(FeatureRequest, pk=feature_request_id)
+        form = FeatureRequestForm(instance = feature_request)
+
+    return render(request, 'feature_requests/edit.html',
+    {
+    'form': form,
+    'feature_request_id' : feature_request_id,
+    'client_list': Client.objects.all(),
+    'product_area_list' : ProductArea.objects.all(),
     'error_text' : error_text
     })
 
@@ -59,24 +108,3 @@ def addTestData(request):
             pa = ProductArea(product_category = product_name)
             pa.save()
     return HttpResponseRedirect('../index')
-
-#renders a form to create a new request
-def new(request):
-    error_text = ""
-    if request.method == 'POST':
-        form = FeatureRequestForm(data = request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('../index')
-        else:
-            print (form.errors)
-            error_text = form.errors
-    else:
-        form = FeatureRequestForm()
-    return render(request, 'feature_requests/new.html',
-    {
-    'form': form,
-    'client_list': Client.objects.all(),
-    'product_area_list' : ProductArea.objects.all(),
-    'error_text' : error_text
-    })

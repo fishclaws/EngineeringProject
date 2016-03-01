@@ -2,10 +2,11 @@
 <head>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-
+</head>
+<body>
 
   <div class="btn-group btn-group-justified" role="group">
-    <a class="btn btn-primary" role="button" href='../../'>Back</a>
+    <a class="btn btn-primary" role="button" href='../../index'>Back</a>
   </div>
   <div class="container">
     {% if error_text %}
@@ -17,18 +18,33 @@
     {% endif %}
     <div class="row">
       <div class="panel-heading">
-        <h4 class="text-center">Request for: {{ request.title }}</h4>
+        <h4 class="text-center">Request for: {{ request.title.value }}</h4>
       </div>
     </div>
     <div class="form-group">
-      <form id="feature_request_form" action="/feature_requests/edit/{{request.id}}/" method="post" role="form">
-          {% csrf_token %}
-        <textarea id="description" rows="25" placeholder="Enter all details pertaining to request." class="form-control" type="text" name="description" value="{{ description }}">{{ request.description }}</textarea>
+      <form id="description_form" action="/feature_requests/edit_description/{{feature_request_id}}/" method="post" role="form">
+        {% csrf_token %}
+        {{ request.version.as_hidden }}
+        <textarea id="description" rows="25" placeholder="Enter all details pertaining to request." class="form-control" type="text" name="description" value="{{ description }}">{{ request.description.value }}</textarea>
         <div class="panel-footer">
           <input type="submit" class="btn btn-lg btn-block btn-success" value="Save">
         </div>
       </form>
     </div>
   </div>
-</head>
+  <script>
+    jQuery.validator.setDefaults({
+      debug: false,
+      success: "valid"
+    });
+
+    $( "#description_form" ).validate({
+      rules: {
+        description: {
+          required: true,
+          maxlength: 2000
+        }
+    });
+  </script>
+</body>
 </html>

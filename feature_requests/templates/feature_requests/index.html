@@ -13,12 +13,26 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
+
+
+
+  </head>
+  <body>
+
     <script>
     $(document).ready(function() {
         $('#data_table').DataTable({
-          responsive: true
+          columnDefs: [
+            { targets: 'non-text', orderable: false, searchable: false },
+          ],
+           responsive: true,
         });
-    } );
+      });
+
+      function startDeleteModal(id)
+      {
+          $("#deleteModal").find(".modal-footer").find("a").attr("href","delete/" + id + "/");
+      }
     </script>
 
     <div class="container">
@@ -26,60 +40,86 @@
         <h4 class="text-center">Features Requested</h4>
       </div>
 
-      <div class="btn-group btn-group-justified" role="group">
-        <a class="btn btn-primary" role="button" href='new/'>Request New Feature</a>
-        <a class="btn btn-default" role="button" href='test/'>Add Test Clients and Product Areas</a>
+      <div class="row">
+        <div class="btn-group btn-group-justified" role="group">
+          <a class="btn btn-primary" role="button" href='new/'>Request New Feature</a>
+          <a class="btn btn-default" role="button" href='test/'>Add Test Clients and Product Areas</a>
+        </div>
       </div>
 
+      <div class="row">
       {% if feature_request_list %}
       <div class="table-responsive">
-      <table id="data_table" class="order-column" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th role="row" >Request Title</th>
-          <th role="row">Client</th>
-          <th role="row">Priority</th>
-          <th role="row">Target Date</th>
-          <th role="row">Ticket URL</th>
-          <th role="row">Product Area</th>
-          <th role="row" hidden></th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for fr in feature_request_list %}
-      <tr>
-        <td>
-          <a class="btn" href="detail/{{ fr.id }}/">{{ fr.title }}</a>
-        </td>
-        <td>
-          {{ fr.client.name }}
-        </td>
-        <td>
-          {{ fr.client_priority }}
-        </td>
-        <td>
-          {{ fr.target_date }}
-        </td>
-        <td>
-          {{ fr.ticket_url }}
-        </td>
-        <td>
-          {{ fr.product_area.product_category }}
-        </td>
-        <td>
-          <a class="btn btn-danger" href='delete/{{ fr.id }}/'>Delete</a> <br />
-        </td>
-      </tr>
-      {% endfor %}
-      </tbody>
-      </table>
+        <table id="data_table" class="order-column table-striped" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>Request Title</th>
+              <th>Client</th>
+              <th>Priority</th>
+              <th>Target Date</th>
+              <th>Ticket URL</th>
+              <th>Product Area</th>
+              <th class="non-text"></th>
+              <th class="non-text"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for fr in feature_request_list %}
+            <tr id="rowId">
+              <td>
+                <a href="detail/{{ fr.id }}/">{{ fr.title }}</a>
+              </td>
+              <td>
+                {{ fr.client.name }}
+              </td>
+              <td>
+                {{ fr.client_priority }}
+              </td>
+              <td>
+                {{ fr.target_date }}
+              </td>
+              <td>
+                {{ fr.ticket_url }}
+              </td>
+              <td>
+                {{ fr.product_area.product_category }}
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a id="deleteButton" role="button" onclick="startDeleteModal({{fr.id}})" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                </div>
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a id="editButton" role="button" class="btn btn-info btn-sm" href='edit/{{ fr.id }}/'>Edit</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
+    </div>
 
       {% else %}
           <p class = "bg-info text-center" >No features have been requested yet!</p>
       {% endif %}
-
-
     </div>
-  </head>
+
+    <div  id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Delete this Request?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <a class="btn btn-danger" href="">Yes</a>
+          </div>
+        </div>
+      </div>>
+    </div>
+
+  </body>
 </html>

@@ -41,6 +41,7 @@ Installation should be easy
     `client_priority` int(11) DEFAULT NULL,
     `ticket_url` varchar(45) DEFAULT NULL,
     `product_area_id` int(11) DEFAULT NULL,
+    `version` int(11) DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id_UNIQUE` (`id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;

@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="//jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  </head>
+  <body>
+    {% if error_text %}
+    <div class="control-group error" align="center">
+      <label class="control-label" for="inputError">{{ error_text }}</label>
+    </div>
+    {% endif %}
+    <div class="container"  style="max-width: 380px">
+      <div class="row">
+        <div class="panel-heading">
+          <h4 class="text-center">Login</h4>
+        </div>
+      </div>
+      <div class="row">
+        <form id = "form_login" action="/feature_requests/auth/" method="POST"> {% csrf_token %}
+            <div data-role="fieldcontain">
+              <div class="input-group">
+                <input type="email" class="form-control" placeholder="Email" name="email" id="email" value="" aria-describedby="basic-addon1">
+
+                <input type="password" class="form-control" placeholder="Password" name="password" id="password" value=""  aria-describedby="basic-addon1"/>
+              </div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="submit-value">Sign in</button>
+        </form>
+      </div>
+      <div class="row">
+        <div class="panel-heading">
+          <h4 class="text-center">Signup</h4>
+        </div>
+      </div>
+      <div class="row">
+        <form id = "form_signup" action="/feature_requests/signup/" method="POST"> {% csrf_token %}
+            <div data-role="fieldcontain">
+              <div class="input-group">
+                <input type="email" class="form-control" placeholder="Email" name="email" id="email" value="" aria-describedby="basic-addon1">
+
+                <input type="password" class="form-control" placeholder="Password" name="password1" id="password1" value=""  aria-describedby="basic-addon1"/>
+
+                <input type="password" class="form-control" placeholder="Password Again" name="password2" id="password2" value=""  aria-describedby="basic-addon1"/>
+              </div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="submit-value">Sign up</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      jQuery.validator.setDefaults({
+        debug: false,
+        success: "valid"
+      });
+      $( "#form_login" ).validate({
+        rules: {
+          email: {
+            email: true,
+            required: true
+          },
+          password: {
+            required: true
+          }
+        }
+      });
+      $( "#form_signup" ).validate({
+        rules: {
+          email: {
+            required: true,
+          },
+          password1: {
+            required: true,
+            maxlength: 100,
+            minlength: 8
+          },
+          password2: {
+            equalTo: "#password1"
+        }
+      }
+    });
+    </script>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.contrib.auth.models import User
+
 from .exceptions import ConcurrentModificationError
 
 class Client(models.Model):
@@ -21,6 +23,7 @@ class FeatureRequest(models.Model):
     ticket_url = models.CharField(max_length = 100)
     product_area = models.ForeignKey(ProductArea)
     version = models.IntegerField(default = 0)
+    user = models.ForeignKey(User)
 
     #FeatureRequest overrides Model.save() to ensure that client_priority is unique among
     #the same client. It increments all client priorities greater than the

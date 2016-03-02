@@ -12,10 +12,6 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-
-
-
   </head>
   <body>
 
@@ -34,6 +30,16 @@
           $("#deleteModal").find(".modal-footer").find("a").attr("href","delete/" + id + "/");
       }
     </script>
+
+    <div class="col-md-4 center-block">
+      <div class="btn-group" role="group">
+      {% if current_user.is_authenticated %}
+        <a class="btn btn-primary" role="button" href='logout/'>Logout of {{current_user}}</a>
+      {% else %}
+        <a class="btn btn-primary" role="button" href='login/'>Login or Sign-Up</a>
+      {% endif %}
+      </div>
+    </div>
 
     <div class="container">
       <div class="panel-heading">
@@ -59,6 +65,7 @@
               <th>Target Date</th>
               <th>Ticket URL</th>
               <th>Product Area</th>
+              <th>Created By</th>
               <th class="non-text"></th>
               <th class="non-text"></th>
             </tr>
@@ -85,13 +92,16 @@
                 {{ fr.product_area.product_category }}
               </td>
               <td>
+                {{ fr.user.username }}
+              </td>
+              <td>
                 <div class="btn-group" role="group">
-                  <a id="deleteButton" role="button" onclick="startDeleteModal({{fr.id}})" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                  <a id="deleteButton" {% if current_user != fr.user %} disabled {% endif %} role="button" onclick="startDeleteModal({{fr.id}})" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</a>
                 </div>
               </td>
               <td>
                 <div class="btn-group" role="group">
-                  <a id="editButton" role="button" class="btn btn-info btn-sm" href='edit/{{ fr.id }}/'>Edit</a>
+                  <a id="editButton" {% if current_user != fr.user %} disabled {% endif %}  role="button" class="btn btn-info btn-sm" href='edit/{{ fr.id }}/'>Edit</a>
                 </div>
               </td>
             </tr>

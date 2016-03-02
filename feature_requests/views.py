@@ -1,6 +1,13 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django import forms
+from django.views.generic import ListView
 from django.http import HttpResponseRedirect
+from django.core.context_processors import csrf
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
+
 from .models import FeatureRequest
 from .models import Client
 from .models import ProductArea
@@ -8,25 +15,27 @@ from .forms import FeatureRequestForm
 from .forms import FeatureRequestDescriptionForm
 from .exceptions import ConcurrentModificationError
 
-#Views accessible by app
-
 #renders list of feature requests ordered by client priority (max 100)
 def index(request):
     request_list = FeatureRequest.objects.order_by('-client_priority')
-    context = {'feature_request_list' : request_list}
+    context = {'feature_request_list' : request_list, 'current_user' : request.user}
     return render(request, 'feature_requests/index.html', context)
 
 #edits description
+@login_required(login_url='/feature_requests/login/')
 def editDescription(request, feature_request_id):
     error_text = ""
     if request.method == 'POST':
         form = FeatureRequestDescriptionForm(data = request.POST, instance = FeatureRequest.objects.get(pk = feature_request_id))
         if form.is_valid():
             try:
-                form.save()
-                return HttpResponseRedirect('../../')
+                fr = form.save(commit = False)
+                if fr.user == request.user:
+                    fr.save()
+                    return HttpResponseRedirect('../../')
+                else:
+                    error_text = "You do not have permission edit this request."
             except ConcurrentModificationError as e:
-                print(e.message)
                 error_text = e.message
         else:
             print (form.errors)
@@ -43,12 +52,15 @@ def editDescription(request, feature_request_id):
 
 #renders a form to create a new request
 #posts the form
+@login_required(login_url='/feature_requests/login/')
 def new(request):
     error_text = ""
     if request.method == 'POST':
         form = FeatureRequestForm(data = request.POST)
         if form.is_valid():
-            form.save()
+            fr = form.save(commit = False)
+            fr.user = request.user
+            fr.save()
             return HttpResponseRedirect('../')
         else:
             print (form.errors)
@@ -65,14 +77,19 @@ def new(request):
 
 #renders a form to edit the existing request
 #posts the form
+@login_required(login_url='/feature_requests/login/')
 def edit(request, feature_request_id):
     error_text = ""
     if request.method == 'POST':
         form = FeatureRequestForm(data = request.POST, instance=FeatureRequest.objects.get(pk = feature_request_id))
         if form.is_valid():
             try:
-                form.save()
-                return HttpResponseRedirect('../../')
+                fr = form.save(commit = False)
+                if fr.user == request.user:
+                    fr.save()
+                    return HttpResponseRedirect('../../')
+                else:
+                    error_text = "You do not have permission to edit this record"
             except ConcurrentModificationError as e:
                 error_text = e;
         else:
@@ -92,12 +109,15 @@ def edit(request, feature_request_id):
     })
 
 #removes feature request
+@login_required(login_url='/feature_requests/login/')
 def delete(request, feature_request_id):
-    request = FeatureRequest.objects.get(pk=feature_request_id)
-    request.delete()
+    fr = FeatureRequest.objects.get(pk=feature_request_id)
+    if fr.user == request.user:
+        fr.delete()
     return HttpResponseRedirect('../../')
 
 #posts test data as requested by the app specifications to the DB if it does not exist
+@login_required(login_url='/feature_requests/login/')
 def addTestData(request):
     for letter in ('A', 'B', 'C'):
         if not Client.objects.filter(name = "Client " + letter).exists():
